@@ -1,0 +1,32 @@
+ # Step 1: Create a Spark session (if not already created)
+# This is typically handled by Databricks automatically
+
+# Step 2: Create a DataFrame from sample data
+data = [
+    ("John", 25, "New York"),
+    ("Anna", 28, "San Francisco"),
+    ("Mike", 26, "Chicago"),
+    ("Sarah", 22, "Seattle")
+]
+
+columns = ["Name", "Age", "City"]
+
+df = spark.createDataFrame(data, columns)
+df.show()
+
+# Step 3: Register the DataFrame as a temporary view
+df.createOrReplaceTempView("people")
+
+# Step 4: Run SQL queries
+
+# Query 1: Select all data
+result = spark.sql("SELECT * FROM people")
+result.show()
+
+# Query 2: Filter data by age
+result = spark.sql("SELECT Name, Age FROM people WHERE Age > 25")
+result.show()
+
+# Query 3: Count people by city
+result = spark.sql("SELECT City, COUNT(*) as count FROM people GROUP BY City")
+result.show()
